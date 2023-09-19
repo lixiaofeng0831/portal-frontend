@@ -43,13 +43,13 @@ export class PartnerNetworkApi extends HttpClient {
 
   public getAllBusinessPartner = (filters: SearchParams) =>
     this.instance.get<BusinessPartnerResponse>(
-      `/catena/business-partner?${qs.stringify(filters)}`,
+      `/catena/legal-entities?${qs.stringify(filters)}`,
       getHeaders()
     )
 
   public getBusinessPartnerByBpn = (bpn: string) =>
     this.instance.get<BusinessPartner>(
-      `/catena/business-partner/${bpn}?idType=BPN`,
+      `/catena/legal-entities/${bpn}?idType=BPN`,
       getHeaders()
     )
 

@@ -30,6 +30,13 @@ export interface DigitalTwinsInitialState {
 export type FilterParams = {
   readonly page: number
   readonly pageSize: number
+  readonly limit: number
+}
+
+export type FilterParamsTw = {
+  readonly page: number
+  readonly pageSize: number
+  readonly limit: number
 }
 
 export interface TwinList {
@@ -38,6 +45,7 @@ export interface TwinList {
   itemCount: number
   currentPage: number
   totalPages: number
+  result: Array<ShellDescriptor>
 }
 
 export interface ShellDescriptor {
@@ -52,9 +60,11 @@ export interface ShellDescriptor {
       key: string
       semanticId: SemanticId
       value: string
+      name: string
     }
   ]
   submodelDescriptors: SubmodelDescriptors[]
+  id: string
 }
 
 export interface SubmodelDescriptors {
@@ -79,9 +89,18 @@ interface Endpoints {
     subprotocol: string
     subprotocolBody: string
     subprotocolBodyEncoding: string
+    href: string
   }
 }
 
 interface SemanticId {
   value: string[]
+  keys: SemanticIdKey[]
+  type: string
+  supplementalSemanticId: string[]
+}
+
+interface SemanticIdKey {
+  value: string
+  type: string
 }

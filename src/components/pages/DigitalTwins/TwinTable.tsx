@@ -49,13 +49,15 @@ const TwinTable = ({ onTwinSelect }: TwinTableProps) => {
 
   useEffect(() => {
     dispatch(
-      fetchDigitalTwins({ filter: { page: pageNumber, pageSize: rowCount } })
+      fetchDigitalTwins({
+        filter: { page: pageNumber, pageSize: rowCount, limit: rowCount },
+      })
     )
   }, [dispatch, pageNumber])
 
   useEffect(() => {
-    setTwins((prevTwins) => prevTwins.concat(twinList.items))
-  }, [twinList])
+    setTwins((prevTwins) => prevTwins.concat(twinList.result))
+  }, [twinList.result])
 
   const checkForKeyType = (
     search: string
@@ -75,7 +77,9 @@ const TwinTable = ({ onTwinSelect }: TwinTableProps) => {
   const clearSearch = () => {
     setSearchValue('')
     dispatch(
-      fetchDigitalTwins({ filter: { page: pageNumber, pageSize: rowCount } })
+      fetchDigitalTwins({
+        filter: { page: pageNumber, pageSize: rowCount, limit: rowCount },
+      })
     )
   }
 
@@ -104,7 +108,7 @@ const TwinTable = ({ onTwinSelect }: TwinTableProps) => {
         }}
         columns={columns}
         rows={twins}
-        getRowId={(row) => uniqueId(row.idShort)}
+        getRowId={(row) => uniqueId(row.id)}
         rowHeight={50}
         hasBorder={false}
         noRowsMsg={t('content.digitaltwin.table.norows').replace(

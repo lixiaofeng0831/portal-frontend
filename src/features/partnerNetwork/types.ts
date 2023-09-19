@@ -132,6 +132,8 @@ export interface BusinessPartner {
   bankAccounts: Array<BpdmTypeBankAccount>
   roles: Array<BpdmTypeCommonKeyValuePair>
   relations: Array<BpdmTypeRelation>
+  legalAddress: any
+  bpnl: string
 }
 
 export interface BusinessPartnerSearchResponse {

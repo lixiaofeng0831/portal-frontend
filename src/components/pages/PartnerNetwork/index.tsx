@@ -57,8 +57,15 @@ const PartnerNetwork = () => {
   const validateSearchText = (text: string): boolean =>
     Patterns.SEARCH.test(text.trim())
 
-  const checkIfBPNLNumber = (text: string): boolean =>
-    Patterns.BPN.test(text.trim())
+  const checkIfBPNLNumber = (text: string): boolean => {
+    console.log(
+      'checkIfBPNLNumber: ' +
+        text +
+        ', result: ' +
+        Patterns.BPN.test(text.trim())
+    )
+    return Patterns.BPN.test(text.trim())
+  }
 
   const [allItems, setAllItems] = useState<any>({})
 
@@ -83,19 +90,24 @@ const PartnerNetwork = () => {
           setAllItems([])
         })
     } else {
-      const result = [cData.bpn]
+      const result = [cData.bpnl]
       await mutationRequest(result)
         .unwrap()
         .then((payload: any) => {
           //update for country attribute && update member info
           let finalObj = JSON.parse(JSON.stringify(cData))
-          finalObj.legalAddress = payload[0].legalAddress
+          // finalObj.legalAddress = payload[0].legalAddress
           if (isQueryDataPresent(data)) {
-            finalObj.member = data && data.includes(finalObj.bpn)
+            finalObj.member = data && data.includes(finalObj.bpnl)
           }
+          finalObj.forEach((element: any) => {
+            console.log('finalObj2 bpnl: ' + element.bpnl)
+            // console.log('finalObj legalAddress: '+element.legalAddress)
+          })
           setAllItems([finalObj])
         })
         .catch(() => {
+          console.log('setAllItems2 [] ')
           setAllItems([])
         })
     }
@@ -132,9 +144,10 @@ const PartnerNetwork = () => {
           fetchHook={useFetchBusinessPartnersQuery}
           fetchHookArgs={{ expr }}
           fetchHookRefresh={refresh}
-          getRowId={(row: { legalEntity: any }) =>
-            row && row.legalEntity ? row.legalEntity.bpn : ''
-          }
+          getRowId={(row: any) => {
+            // console.log('row.bpnl:'+row.bpnl)
+            return row.bpnl
+          }}
           columns={!showBPNColumn ? columns : bpnColumns}
           callbackToPage={fetchAndApply}
           allItems={allItems}

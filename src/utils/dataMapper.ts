@@ -59,24 +59,35 @@ const mapBusinessPartnerToDataGrid = (
 }
 
 const mapSingleBusinessPartnerToDataGrid = (
-  bp: BusinessPartner
+  bp: any
 ): PartnerNetworkDataGrid => {
-  const bpAddress = bp.addresses[0]
+  const bpAddress = bp.legalAddress.physicalPostalAddress
   const names = cloneDeep(bp.names)
   return {
-    bpn: bp.bpn,
-    name: names.length
-      ? names.sort((a, b) =>
-          a.type.technicalKey.localeCompare(b.type.technicalKey)
-        )[0].value
-      : '-', //value can be INTERNATIONAL < LOCAL < OTHER
+    // bpn: bp.bpn,
+    // name: names.length
+    //   ? names.sort((a, b) =>
+    //       a.type.technicalKey.localeCompare(b.type.technicalKey)
+    //     )[0].value
+    //   : '-', //value can be INTERNATIONAL < LOCAL < OTHER
+    // legalForm: bp.legalForm?.name || '',
+    // country: bpAddress.country.name,
+    // street: bpAddress.thoroughfares[0].value,
+    // zipCode: bpAddress.postCodes[0].value,
+    // city: bpAddress.localities[0].value,
+    // identifiers: bp.identifiers?.filter(
+    //   (identifier) => identifier.type.technicalKey !== 'CDQID'
+    // ),
+    bpn: bp.bpnl,
+    name: bp.legalName,
     legalForm: bp.legalForm?.name || '',
     country: bpAddress.country.name,
-    street: bpAddress.thoroughfares[0].value,
-    zipCode: bpAddress.postCodes[0].value,
-    city: bpAddress.localities[0].value,
+    street: bpAddress.street.name,
+    zipCode: bpAddress.postCodes,
+    city: bpAddress.city,
     identifiers: bp.identifiers?.filter(
-      (identifier) => identifier.type.technicalKey !== 'CDQID'
+      (identifier: { type: { technicalKey: string } }) =>
+        identifier.type.technicalKey !== 'CDQID'
     ),
   } as PartnerNetworkDataGrid
 }

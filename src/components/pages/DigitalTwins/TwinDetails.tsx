@@ -57,10 +57,10 @@ export const TwinDetails = ({ twin }: { twin: ShellDescriptor }) => {
             {t('content.digitaltwin.detail.assetId')}
           </Typography>
           {twin.specificAssetIds.map((saId, index) => (
-            <Box key={saId.key}>
+            <Box key={saId.name}>
               <DetailGrid
                 topic={t('content.digitaltwin.detail.key')}
-                content={saId.key}
+                content={saId.name}
               />
               <DetailGrid
                 topic={t('content.digitaltwin.detail.value')}
@@ -129,7 +129,7 @@ export const TwinDetails = ({ twin }: { twin: ShellDescriptor }) => {
           />
           <DetailGrid
             topic={t('content.digitaltwin.detail.protocol_endpoint')}
-            content={endpoint.protocolInformation.endpointAddress}
+            content={endpoint.protocolInformation.href}
           />
           <DetailGrid
             topic={t('content.digitaltwin.detail.protocol_version')}
@@ -159,7 +159,7 @@ export const TwinDetails = ({ twin }: { twin: ShellDescriptor }) => {
           expanded: false,
           children: secondaryContent(
             subModel,
-            subModel.semanticId.value[0],
+            subModel.semanticId.keys[0].value,
             idKey
           ),
           color: '',

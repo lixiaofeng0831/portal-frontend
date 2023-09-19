@@ -44,6 +44,7 @@ export interface BusinessPartner {
   relations: Array<BpdmTypeRelation>
   legalAddress?: any
   member?: boolean
+  bpnl: string
 }
 
 export interface BusinessPartnerSearchResponse {

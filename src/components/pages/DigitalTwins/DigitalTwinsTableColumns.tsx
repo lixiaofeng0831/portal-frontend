@@ -22,6 +22,7 @@ import { GridColDef } from '@mui/x-data-grid'
 import { IconButton } from '@catena-x/portal-shared-components'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { ShellDescriptor } from 'features/digitalTwins/types'
+import { fromByteArray } from 'base64-js'
 
 // Columns definitions of Digital Twin page Data Grid
 export const DigitalTwinsTableColumns = (
@@ -61,8 +62,10 @@ export const DigitalTwinsTableColumns = (
       filterable: false,
       width: 150,
       renderCell: ({ row }: { row: ShellDescriptor }) => (
-        <IconButton
-          onClick={() => onDetailClick(row.identification)}
+        <IconButton //fromByteArray(Uint8Array.from(row.id))
+          onClick={() =>
+            onDetailClick(fromByteArray(new TextEncoder().encode(row.id)))
+          }
           color="secondary"
           size="small"
           style={{ alignSelf: 'center' }}

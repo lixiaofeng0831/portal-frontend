@@ -29,6 +29,7 @@ const defaultTwins: TwinList = {
   itemCount: 0,
   currentPage: 0,
   totalPages: 0,
+  result: [],
 }
 
 const initialState: DigitalTwinsInitialState = {

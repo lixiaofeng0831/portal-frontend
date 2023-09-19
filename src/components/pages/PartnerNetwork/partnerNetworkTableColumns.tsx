@@ -41,20 +41,22 @@ export const PartnerNetworksTableColumns = (
       headerName: t('content.partnernetwork.columns.name'),
       flex: 2,
       sortable: false,
-      valueGetter: ({ row }: { row: BusinessPartnerSearchResponse }) =>
-        row?.legalEntity &&
-        row?.legalEntity?.names &&
-        row?.legalEntity?.names?.length
-          ? row.legalEntity.names[0].value
-          : '',
+      valueGetter: ({ row }: { row: any }) =>
+        // row?.legalEntity &&
+        // row?.legalEntity?.names &&
+        // row?.legalEntity?.names?.length
+        //   ? row.legalEntity.names[0].value
+        //   : '',
+        row.legalName,
     },
     {
-      field: 'legalEntity.bpn',
+      field: 'legalEntity.bpnl',
       headerName: t('content.partnernetwork.columns.bpn'),
       flex: 2,
       sortable: false,
-      valueGetter: ({ row }: { row: BusinessPartnerSearchResponse }) =>
-        row?.legalEntity ? row.legalEntity.bpn : '',
+      valueGetter: ({ row }: { row: any }) =>
+        // row?.legalEntity ? row.legalEntity.bpn : '',
+        row.bpnl,
     },
     {
       field: 'cxmember', // Temporary field, doesnt exists yet
@@ -64,8 +66,8 @@ export const PartnerNetworksTableColumns = (
       renderCell: (params) =>
         params &&
         params.row &&
-        params.row.legalEntity &&
-        params.row.legalEntity.member ? (
+        // params.row.legalEntity &&
+        params.row.member ? (
           <Box
             component="img"
             padding=".5rem"
@@ -84,8 +86,10 @@ export const PartnerNetworksTableColumns = (
       headerName: t('content.partnernetwork.columns.country'),
       flex: 1.5,
       sortable: false,
-      valueGetter: ({ row }: { row: BusinessPartnerSearchResponse }) =>
-        row?.legalEntity ? row.legalEntity.legalAddress?.country?.name : '',
+      valueGetter: ({ row }: { row: any }) =>
+        row.legalAddress
+          ? row.legalAddress.physicalPostalAddress.country?.name
+          : '',
     },
     {
       field: 'detail',
@@ -94,14 +98,12 @@ export const PartnerNetworksTableColumns = (
       flex: 0.8,
       align: 'center',
       renderCell: (params) =>
-        params && params.row && params.row.legalEntity ? (
+        params && params.row ? (
           <IconButton
             color="secondary"
             size="small"
             style={{ alignSelf: 'center' }}
-            onClick={() =>
-              dispatch(show(OVERLAYS.PARTNER, params.row.legalEntity.bpn))
-            }
+            onClick={() => dispatch(show(OVERLAYS.PARTNER, params.row.bpnl))}
           >
             <ArrowForwardIcon />
           </IconButton>

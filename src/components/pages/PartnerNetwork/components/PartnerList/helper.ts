@@ -37,7 +37,8 @@ export const addCountryAttribute = (finalObj: any, payload: any) => {
 export const addMemberAttribute = (finalObj: any, queryData: any) => {
   if (queryData) {
     finalObj.forEach((x: any) => {
-      x.legalEntity.member = queryData.includes(x.legalEntity.bpn)
+      console.log('x.bpnl: ' + x.bnpl)
+      x.member = queryData.includes(x.bpnl)
     })
   }
   return finalObj
