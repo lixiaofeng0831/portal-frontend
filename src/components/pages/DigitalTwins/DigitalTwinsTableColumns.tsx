@@ -37,6 +37,8 @@ export const DigitalTwinsTableColumns = (
       headerName: t('content.digitaltwin.table.columns.idShort'),
       flex: 3,
       filterable: false,
+      valueGetter: ({ row }: { row: ShellDescriptor }) =>
+        row.specificAssetIds[0].value,
     },
     {
       field: 'sm_count',

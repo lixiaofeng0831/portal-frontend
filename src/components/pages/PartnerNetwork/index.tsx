@@ -76,17 +76,27 @@ const PartnerNetwork = () => {
       return
     }
     if (isContentPresent(cData)) {
-      const result = cData.content.map((x: any) => x.legalEntity.bpn)
+      // cData.content.forEach((element: any) => {
+      //   console.log('cData: '+element.bpnl)
+      // })
+      const result = cData.content.map((x: any) => x.bpnl)
       await mutationRequest(result)
         .unwrap()
         .then((payload: any) => {
           //new country attribute && member attributes based on the response
           let finalObj = JSON.parse(JSON.stringify(cData?.content))
-          finalObj = addCountryAttribute(finalObj, payload)
+          console.log('stringify data: ' + JSON.stringify(data))
+          // finalObj = addCountryAttribute(finalObj, payload)
           finalObj = addMemberAttribute(finalObj, data)
+          console.log('setAllItems finalObj')
+          finalObj.forEach((element: any) => {
+            console.log('finalObj bpnl: ' + element.bpnl)
+            // console.log('finalObj legalAddress: '+element.legalAddress)
+          })
           setAllItems(finalObj)
         })
         .catch(() => {
+          console.log('setAllItems [] ')
           setAllItems([])
         })
     } else {
@@ -114,6 +124,7 @@ const PartnerNetwork = () => {
   }
 
   useEffect(() => {
+    console.log('allItems length: ' + allItems.length)
     if (allItems?.length) setShowBPNColumn(checkIfBPNLNumber(expr))
   }, [allItems, expr])
 
